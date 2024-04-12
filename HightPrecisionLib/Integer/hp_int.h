@@ -315,9 +315,9 @@ hight_precision::Num::Divided(const hight_precision::Num &num1,
   // res.second is the residue
   std::pair<hight_precision::Num, hight_precision::Num> res = {
       hight_precision::Num(0), num1};
-  res.first.rev_integer_digits_.resize(0);
+  res.first.rev_integer_digits_.resize(0, '\0');
 
-  size_t supply_zero_num;
+  size_t supply_zero_num = 0;
   if (num1.rev_integer_digits_.size() == num2.rev_integer_digits_.size() + 1 &&
       num1.rev_integer_digits_.end() >= num2.rev_integer_digits_.end()) {
     // In this situation, let the divisor multply 10 can reduced the subtraction
@@ -325,7 +325,8 @@ hight_precision::Num::Divided(const hight_precision::Num &num1,
     // like this -> 30 ÷ 3 the quotient's changed is from 0 to 30,
     // to 30 ÷ 30, the quotient's changed is from 0 to 10
     supply_zero_num = 1;
-  } else {
+  } else if (num1.rev_integer_digits_.size() >
+             num2.rev_integer_digits_.size()) {
     supply_zero_num =
         num1.rev_integer_digits_.size() - num2.rev_integer_digits_.size() - 1;
   }
@@ -494,6 +495,7 @@ hight_precision::Num hight_precision::Num::operator%(
   if (*this == hight_precision::Num(0) || *this == num) {
     return hight_precision::Num(0);
   }
+  if (*this < num) return *this;
   hight_precision::Num res = Divided(abs(*this), abs(num)).second;
   res.is_minus_ = this->is_minus_;
   return res;
