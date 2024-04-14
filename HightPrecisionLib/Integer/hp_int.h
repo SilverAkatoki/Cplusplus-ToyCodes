@@ -16,6 +16,9 @@
 
 namespace hight_precision {
 
+/******************************************************************
+ * @brief A very big integer number which can be max than `int64_t`
+ *****************************************************************/
 class Num {
  public:
   Num();
@@ -163,7 +166,7 @@ bool hight_precision::Num::operator>(const hight_precision::Num &num) const {
   }
 
   // When two numbers' sign are same (liked 3 > 2 or -2 > - 1).
-  // The boolean's value will be true;
+  // The boolean's value will be true
   bool two_num_is_positive = !this->is_minus_;
 
   // The longer digits is, the bigger number is.
@@ -175,7 +178,7 @@ bool hight_precision::Num::operator>(const hight_precision::Num &num) const {
 
   // When the digits' length and sign are all same,
   // judged the digit from the hightest to the lowest.
-  for (int i = this->rev_integer_digits_.size() - 1; i >= 0; --i) {
+  for (size_t i = this->rev_integer_digits_.size() - 1; i >= 0; --i) {
     if (this->rev_integer_digits_[i] != num.rev_integer_digits_[i]) {
       return this->rev_integer_digits_[i] > num.rev_integer_digits_[i]
                  ? two_num_is_positive
@@ -223,7 +226,7 @@ hight_precision::Num hight_precision::Num::Plus(
   const size_t n2_size = num2.rev_integer_digits_.size();
   const size_t max_size = std::max(n1_size, n2_size);
 
-  for (int i = 0; i < max_size || carry_num != 0; ++i) {
+  for (size_t i = 0; i < max_size || carry_num != 0; ++i) {
     char digit1 = i < n1_size ? num1.rev_integer_digits_[i] : '0';
     char digit2 = i < n2_size ? num2.rev_integer_digits_[i] : '0';
 
@@ -282,9 +285,9 @@ hight_precision::Num hight_precision::Num::Multply(
   res.rev_integer_digits_ = std::string(
       num1.rev_integer_digits_.size() + num2.rev_integer_digits_.size(), '\0');
   char operate_digit = '\0';
-  int offset = 0;
-  for (int i = 0; i < num1.rev_integer_digits_.size(); ++i) {
-    for (int j = 0; j < num2.rev_integer_digits_.size(); ++j) {
+  size_t offset = 0;
+  for (size_t i = 0; i < num1.rev_integer_digits_.size(); ++i) {
+    for (size_t j = 0; j < num2.rev_integer_digits_.size(); ++j) {
       operate_digit = (num1.rev_integer_digits_[i] - '0') *
                       (num2.rev_integer_digits_[j] - '0');
       res.rev_integer_digits_[j + offset] += operate_digit;
@@ -306,7 +309,7 @@ hight_precision::Num hight_precision::Num::Multply(
 }
 
 // num1 > num2 and num2, num1 != 0 are required.
-// It will return a pair contained quotient and remainder
+// It will return a pair contained quotient and residue
 // (all of them are HightPrecision Num).
 std::pair<hight_precision::Num, hight_precision::Num>
 hight_precision::Num::Divided(const hight_precision::Num &num1,
