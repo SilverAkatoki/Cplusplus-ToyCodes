@@ -5,6 +5,8 @@
 int main() {
   hp::Num num1 = INT_MAX;
   hp::Num num2 = INT_MAX - 1;
+  std::cout << "Input a integer num:\n";
+  std::cin >> num2;
   std::cout << num1 << " + " << num2 << " = " << num1 + num2 << '\n';
   std::cout << num1 << " - " << num2 << " = " << num1 - num2 << '\n';
   std::cout << num1 << " * " << num2 << " = " << num1 * num2 << '\n';

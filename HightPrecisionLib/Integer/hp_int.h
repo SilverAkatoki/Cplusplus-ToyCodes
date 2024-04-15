@@ -38,6 +38,13 @@ class Num {
     return os << ((num.is_minus_) ? '-' : '\0') << integer_digits;
   }
 
+  friend std::istream &operator>>(std::istream &is, Num &num) {
+    int temp;
+    is >> temp;
+    num.StringConstructFunc(std::to_string(temp));
+    return is;
+  }
+
   friend Num abs(const Num &num);
 
   friend Num pow(const Num &num, const int &index);
@@ -331,7 +338,7 @@ hight_precision::Num::Divided(const hight_precision::Num &num1,
   } else if (num1.rev_integer_digits_.size() >
              num2.rev_integer_digits_.size()) {
     supply_zero_num =
-        num1.rev_integer_digits_.size() - num2.rev_integer_digits_.size() - 1;
+        num1.rev_integer_digits_.size() - num2.rev_integer_digits_.size();
   }
   hight_precision::Num divisor_num = num2;
 
@@ -340,10 +347,9 @@ hight_precision::Num::Divided(const hight_precision::Num &num1,
   // 320 ÷ 10, let 10 to 100.
   divisor_num.rev_integer_digits_.insert(
       divisor_num.rev_integer_digits_.begin(), supply_zero_num, '0');
-
   char quotient_digit;
 
-  while (res.second > num2) {
+  while (res.second >= num2) {
     quotient_digit = '\0';
 
     while (res.second >= divisor_num) {
@@ -355,7 +361,6 @@ hight_precision::Num::Divided(const hight_precision::Num &num1,
       }
     }
     res.first.rev_integer_digits_.push_back(quotient_digit + '0');
-    supply_zero_num--;
     if (supply_zero_num > 0) {
       divisor_num.rev_integer_digits_.erase(
           divisor_num.rev_integer_digits_.begin());
