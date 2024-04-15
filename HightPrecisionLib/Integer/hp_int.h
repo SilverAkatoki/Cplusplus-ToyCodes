@@ -39,9 +39,9 @@ class Num {
   }
 
   friend std::istream &operator>>(std::istream &is, Num &num) {
-    int temp;
+    std::string temp;
     is >> temp;
-    num.StringConstructFunc(std::to_string(temp));
+    num.StringConstructFunc(temp);
     return is;
   }
 
