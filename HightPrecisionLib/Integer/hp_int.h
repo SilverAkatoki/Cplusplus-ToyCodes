@@ -35,7 +35,11 @@ class Num {
   friend std::ostream &operator<<(std::ostream &os, const Num &num) {
     std::string integer_digits(num.rev_integer_digits_.rbegin(),
                                num.rev_integer_digits_.rend());
-    return os << ((num.is_minus_) ? '-' : '\0') << integer_digits;
+    if (num.is_minus_) {
+      return os << '-' << integer_digits;
+    } else {
+      return os << integer_digits;
+    }
   }
 
   friend std::istream &operator>>(std::istream &is, Num &num) {
@@ -509,7 +513,7 @@ hight_precision::Num hight_precision::Num::operator%(
   return res;
 }
 
-hight_precision::Num &hight_precision::Num::operator++() {
+hight_precision::Num &&hight_precision::Num::operator++() {
   *this = operator+(hight_precision::Num(1));
   return *this;
 }
@@ -520,7 +524,7 @@ hight_precision::Num hight_precision::Num::operator++(int) {
   return res;
 }
 
-hight_precision::Num &hight_precision::Num::operator--() {
+hight_precision::Num &&hight_precision::Num::operator--() {
   *this = operator-(hight_precision::Num(1));
   return *this;
 }
