@@ -5,3 +5,5 @@ Issue? 我尽量吧(也许根本没人看, 对吧！)
 ## 当前内容  
 - 高精度整数计算库 (./HightPrecisionLib/Integer)
 - 程序计时器 (./Timer)
+- 部分 STL 容器的输出流重载 (./EasyCout)
+- C++ 字符串切片汇总 (./StringSplits)
