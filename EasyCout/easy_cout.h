@@ -219,13 +219,6 @@ std::ostream& operator<<(std::ostream& os,
   return os;
 }
 
-// template <typename T, typename... Args>
-// std::ostream& operator<<(std::ostream& os,
-//                          const std::tuple<T, ... Args> output_tuple) {
-//   Print(os, output_tuple);
-//   return os;
-// }
-
 #endif  // CPLUSPLUSTOYSCODE_EASYCOUT_EASY_COUT_H_
 
 #endif  // NOLINT
