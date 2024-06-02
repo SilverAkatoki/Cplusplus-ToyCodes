@@ -9,6 +9,7 @@
 #define HP_INT_H_
 
 #include <algorithm>
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <utility>  // std::make_pair() 要用
@@ -23,7 +24,7 @@ class Num {
  public:
   Num();
 
-  // 这里不能加 explic 来 ban 了隐式转换（尽管cpplint这样警告了）
+  // 这里不能加 explict 来 ban 了隐式转换（尽管 cpplint 这样警告了）
   // 要不然就不能 hp::Num num = 1; 这样子初始化
 
   Num(const std::string &num);                       // NOLINT
@@ -84,7 +85,7 @@ class Num {
   void operator%=(const Num &num);
 
  private:
-  bool is_minus_;                   // Signed, postive num's value is false.
+  bool is_minus_;                   // Signed, positive num's value is false.
   std::string rev_integer_digits_;  // Liked this: 1234 is saved as "4321".
 
   void StringConstructFunc(const std::string &num);
@@ -94,7 +95,7 @@ class Num {
 
   Num Plus(const Num &num1, const Num &num2);
   Num Sub(const Num &num1, const Num &num2);
-  Num Multply(const Num &num1, const Num &num2);
+  Num Multiply(const Num &num1, const Num &num2);
   std::pair<Num, Num> Divided(const Num &num1, const Num &num2);
 };
 
@@ -171,7 +172,7 @@ void hight_precision::Num::StringConstructFunc(const std::string &num) {
 }
 
 bool hight_precision::Num::operator>(const hight_precision::Num &num) const {
-  // Positive number must be bigger than negetive number, right?
+  // Positive number must be bigger than negative number, right?
   if (this->is_minus_ != num.is_minus_) {
     return num.is_minus_;
   }
@@ -223,12 +224,12 @@ bool hight_precision::Num::operator<=(const hight_precision::Num &num) const {
 }
 
 // The Hight Precision Num in
-// Plus(), Sub(), Multply() Divided() are all positive (x.is_minus = false;)
+// Plus(), Sub(), Multiply() Divided() are all positive (x.is_minus = false;)
 
 hight_precision::Num hight_precision::Num::Plus(
     const hight_precision::Num &num1, const hight_precision::Num &num2) {
   hight_precision::Num res;
-  res.rev_integer_digits_.resize(0);  // If not, the all result will be multply
+  res.rev_integer_digits_.resize(0);  // If not, the all result will be multiply
                                       // 10 (liked this -> 1 + 1 = 20)
 
   char carry_num = '\0';  // Used the char to save memory.
@@ -255,7 +256,7 @@ hight_precision::Num hight_precision::Num::Plus(
 hight_precision::Num hight_precision::Num::Sub(
     const hight_precision::Num &num1, const hight_precision::Num &num2) {
   hight_precision::Num res;
-  res.rev_integer_digits_.resize(0);  // If not, the all result will be multply
+  res.rev_integer_digits_.resize(0);  // If not, the all result will be multiply
                                       // 10 (liked this -> 3 - 1 = 20)
 
   char borrow = '\0';
@@ -290,7 +291,7 @@ hight_precision::Num hight_precision::Num::Sub(
 }
 
 // num1 ≠ 0 and num2 ≠ 0 are required.
-hight_precision::Num hight_precision::Num::Multply(
+hight_precision::Num hight_precision::Num::Multiply(
     const hight_precision::Num &num1, const hight_precision::Num &num2) {
   hight_precision::Num res;
   res.rev_integer_digits_ = std::string(
@@ -334,10 +335,9 @@ hight_precision::Num::Divided(const hight_precision::Num &num1,
   size_t supply_zero_num = 0;
   if (num1.rev_integer_digits_.size() == num2.rev_integer_digits_.size() + 1 &&
       num1.rev_integer_digits_.end() >= num2.rev_integer_digits_.end()) {
-    // In this situation, let the divisor multply 10 can reduced the subtraction
-    // times
-    // like this -> 30 ÷ 3 the quotient's changed is from 0 to 30,
-    // to 30 ÷ 30, the quotient's changed is from 0 to 10
+    // In this situation, let the divisor multiply 10 can reduced the
+    // subtraction times like this -> 30 ÷ 3 the quotient's changed is from 0 to
+    // 30, to 30 ÷ 30, the quotient's changed is from 0 to 10
     supply_zero_num = 1;
   } else if (num1.rev_integer_digits_.size() >
              num2.rev_integer_digits_.size()) {
@@ -346,7 +346,7 @@ hight_precision::Num::Divided(const hight_precision::Num &num1,
   }
   hight_precision::Num divisor_num = num2;
 
-  // To reduced the operate times, multply some 10 to align the divisor
+  // To reduced the operate times, multiply some 10 to align the divisor
   // liked this ->
   // 320 ÷ 10, let 10 to 100.
   divisor_num.rev_integer_digits_.insert(
@@ -473,9 +473,9 @@ hight_precision::Num hight_precision::Num::operator*(
     const hight_precision::Num &num) {
   if (num != hight_precision::Num(0) && *this != hight_precision::Num(0)) {
     if (num.is_minus_ == this->is_minus_) {
-      return Multply(abs(*this), abs(num));
+      return Multiply(abs(*this), abs(num));
     } else {
-      hight_precision::Num res = Multply(abs(*this), abs(num));
+      hight_precision::Num res = Multiply(abs(*this), abs(num));
       res.is_minus_ = true;
       return res;
     }
@@ -513,7 +513,7 @@ hight_precision::Num hight_precision::Num::operator%(
   return res;
 }
 
-hight_precision::Num &&hight_precision::Num::operator++() {
+hight_precision::Num &hight_precision::Num::operator++() {
   *this = operator+(hight_precision::Num(1));
   return *this;
 }
@@ -524,7 +524,7 @@ hight_precision::Num hight_precision::Num::operator++(int) {
   return res;
 }
 
-hight_precision::Num &&hight_precision::Num::operator--() {
+hight_precision::Num &hight_precision::Num::operator--() {
   *this = operator-(hight_precision::Num(1));
   return *this;
 }
