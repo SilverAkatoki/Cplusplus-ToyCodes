@@ -8,6 +8,7 @@
 #define GAME_2048_H
 
 #include <algorithm>
+#include <ctime>
 #include <iostream>
 #include <random>
 #include <utility>
@@ -90,3 +91,5 @@ class Game {
 }  // namespace game2048
 
 #endif  // GAME_2048_H
+
+#endif

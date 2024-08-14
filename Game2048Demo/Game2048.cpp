@@ -26,8 +26,8 @@ game2048::Game::GameType game2048::Game::Move(
       &game2048::Game::MoveUp, &game2048::Game::MoveDown,
       &game2048::Game::MoveLeft, &game2048::Game::MoveRight};
 
-  if (auto game_type = IsWining(),
-      game2048 != game2048::Game::GameType::StillPlay) {
+  if (auto game_type = IsWining();
+      game_type != game2048::Game::GameType::StillPlay) {
     return game_type;
   }
 
@@ -152,7 +152,8 @@ game2048::Game::GameType game2048::Game::IsWining() const noexcept {
   return GameType::Lost;
 }
 
-game2048::RandInt::RandInt() : rd(), generator(rd()) {}
+game2048::RandInt::RandInt()
+    : rd(), generator((static_cast<uint32_t>(time(nullptr)))) {}
 
 inline int game2048::RandInt::Random(const int &low, const int &hight) {
   if (low > hight) throw std::invalid_argument("");
