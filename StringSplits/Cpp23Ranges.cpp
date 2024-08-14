@@ -9,9 +9,9 @@ void split(const std::string& s, std::vector<std::string>& tokens,
 
 int main() {
   std::vector<std::string> split_res;
-  split("abbabb", split_res, "b");
+  split("abab", split_res, "b");
   std::for_each(split_res.begin(), split_res.end(),
-                [](auto ch) { std::cout << ch << ' '; });
+                [](auto ch) { std::cout << ch << '\n'; });
   system("pause");
   return 0;
 }
