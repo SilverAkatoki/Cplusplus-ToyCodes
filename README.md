@@ -12,9 +12,14 @@
 部分项目使用了 C++20 甚至是 C++23 的新特性 *例如说 `std::ranges`*  
 请查看相应项目的 `README.md` 以获得编译所需的版本要求
 
+## 文件编码相关
+
+所有文件均使用 **UTF-8** 编码  
+如果你的 IDE 或是编辑器中出现了中文乱码，可以根据 IDE 配置编译参数，或者自行转成能看的编码
+
 ## 仓库内容  
 
-- 高精度整数计算库 `./HightPrecisionLib/Integer`
+- 高精度整数四则运算库 `./HightPrecisionLib/Integer`
 - 一个功能非常简单的程序计时器 `./Timer`
 - 部分 STL 容器的输出流重载 `./EasyCout`
 - C++ 字符串切片汇总 `./StringSplits`
